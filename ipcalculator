@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator IP Ayam Broiler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #e67e22; /* Oranye khas peternakan */
+            --secondary-color: #27ae60; /* Hijau alam */
+            --bg-color: #fcf9f2;
+            --card-bg: #ffffff;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            /* Anda bisa menambahkan background image peternakan di sini nantinya */
+            /* background-image: url('link-gambar-kandang-blur.jpg'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            /* background-attachment: fixed; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: var(--card-bg);
+            max-width: 600px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #d35400);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        /* Placeholder untuk Gambar Header (Logo/Ayam) */
+        .header img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid white;
+            margin-bottom: 10px;
+            background-color: #fff;
+            /* Ganti src dengan link gambar logo peternakan/ayam Anda */
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .form-content {
+            padding: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-dark);
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ecf0f1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            color: var(--text-dark);
+        }
+
+        .input-group input:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(230, 126, 34, 0.2);
+        }
+
+        .helper-text {
+            display: block;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .btn-calculate {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-calculate:hover {
+            background-color: #219a52;
+        }
+
+        .btn-calculate:active {
+            transform: scale(0.98);
+        }
+
+        /* Result Section */
+        .result-container {
+            display: none; /* Disembunyikan sebelum dihitung */
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-container.active {
+            display: block;
+        }
+
+        .result-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .ip-score {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .category-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .tips-box {
+            background-color: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .tips-box strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-dark);
+        }
+
+        /* Image placeholder untuk hasil */
+        .result-image-placeholder {
+            width: 100%;
+            height: 120px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #bdc3c7;
+            font-size: 12px;
+            overflow: hidden;
+        }
+        
+        .result-image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 12px;
+            color: var(--text-light);
+            border-top: 1px solid #ecf0f1;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="https://ayambismi.com/wp-content/uploads/2022/01/ayam-fighter111-293x300.jpg" alt="Logo Peternakan" id="farmLogo">
+            <h1>Kalkulator IP Broiler</h1>
+            <p>Evaluasi Performa Panen Kandang Anda</p>
+        </div>
+
+        <div class="form-content">
+            <div class="input-group">
+                <label for="avgWeight">Average Weight (Berat Rata-rata)</label>
+                <input type="number" id="avgWeight" step="0.01" placeholder="Contoh: 2.1">
+                <span class="helper-text">💡 Masukkan berat rata-rata panen dalam satuan Kg (Gunakan titik untuk desimal, contoh: 2.15).</span>
+            </div>
+
+            <div class="input-group">
+                <label for="liveBird">Persentase Ayam Hidup (%)</label>
+                <input type="number" id="liveBird" step="0.01" placeholder="Contoh: 95">
+                <span class="helper-text">💡 Cukup masukkan angka persentasenya saja tanpa simbol %. (Contoh: ketik 96.5 jika persentase hidup 96,5%).</span>
+            </div>
+
+            <div class="input-group">
+                <label for="age">Umur Panen (Hari)</label>
+                <input type="number" id="age" placeholder="Contoh: 35">
+                <span class="helper-text">💡 Masukkan umur ayam terhitung sejak *check-in* sampai kandang benar-benar kosong habis terpanen.</span>
+            </div>
+
+            <div class="input-group">
+                <label for="fcr">FCR (Feed Conversion Ratio)</label>
+                <input type="number" id="fcr" step="0.01" placeholder="Contoh: 1.5">
+                <span class="helper-text">💡 Masukkan nilai FCR. Apabila didapat 1.512, Anda cukup memasukkan 2 angka paling depan yaitu 1.5.</span>
+            </div>
+
+            <button class="btn-calculate" onclick="calculateIP()">
+                Hitung IP Sekarang
+            </button>
+
+            <div class="result-container" id="resultContainer">
+                <div class="result-title">Indeks Performa (IP) Anda:</div>
+                <div class="ip-score" id="ipScore">0</div>
+                <div class="category-badge" id="categoryBadge">Kategori</div>
+                
+                <div class="tips-box">
+                    <strong>💡 Tips Peningkatan Performa:</strong>
+                    <span id="tipsText">Deskripsi tips akan muncul di sini.</span>
+                </div>
+
+                <div class="result-image-placeholder">
+                    <span>(Area Gambar Tambahan - Bisa disisipkan gambar maskot di kode)</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            &copy; <span id="year"></span> Ganzo Studio - Farm Performance Calculator
+        </div>
+    </div>
+
+    <script>
+        // Update tahun di footer otomatis
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function calculateIP() {
+            // Mengambil nilai dari input
+            const avgWeight = parseFloat(document.getElementById('avgWeight').value);
+            const liveBird = parseFloat(document.getElementById('liveBird').value);
+            const age = parseFloat(document.getElementById('age').value);
+            const fcr = parseFloat(document.getElementById('fcr').value);
+
+            // Validasi input kosong
+            if (isNaN(avgWeight) || isNaN(liveBird) || isNaN(age) || isNaN(fcr)) {
+                alert("Mohon lengkapi semua kolom data dengan angka yang valid.");
+                return;
+            }
+            if (age <= 0 || fcr <= 0) {
+                alert("Umur dan FCR tidak boleh bernilai 0 atau negatif.");
+                return;
+            }
+
+            // Rumus: (Average Weight * %live bird) / (umur * FCR) * 100
+            const ip = ((avgWeight * liveBird) / (age * fcr)) * 100;
+            const finalIP = Math.round(ip); // Dibulatkan agar rapi
+
+            // Menampilkan Container Hasil
+            const resultContainer = document.getElementById('resultContainer');
+            const ipScoreEl = document.getElementById('ipScore');
+            const categoryBadgeEl = document.getElementById('categoryBadge');
+            const tipsTextEl = document.getElementById('tipsText');
+
+            resultContainer.classList.add('active');
+            ipScoreEl.textContent = finalIP;
+
+            // Menentukan Kategori, Warna, dan Tips
+            let bgColor = "";
+            let textColor = "";
+            let categoryName = "";
+            let tips = "";
+
+            if (finalIP < 280) {
+                categoryName = "Kurang Baik";
+                bgColor = "#e74c3c"; // Merah
+                textColor = "#fff";
+                tips = "Evaluasi menyeluruh! Periksa kembali kualitas anak ayam (DOC), biosekuriti, manajemen suhu pemanas (brooding), sirkulasi udara, atau kemungkinan adanya serangan penyakit yang menyebabkan pakan tidak efisien.";
+            } else if (finalIP >= 280 && finalIP <= 300) {
+                categoryName = "Cukup";
+                bgColor = "#f39c12"; // Oranye/Kuning
+                textColor = "#fff";
+                tips = "Performa standar. Perhatikan lagi detail manajemen pakan dan air minum, atur kepadatan kandang, serta jaga kondisi sekam/litter agar tidak lembab untuk mengurangi stres pada ayam.";
+            } else if (finalIP > 300 && finalIP <= 350) {
+                categoryName = "Baik";
+                bgColor = "#27ae60"; // Hijau
+                textColor = "#fff";
+                tips = "Kerja bagus! Manajemen sudah berjalan di jalur yang benar. Tetap fokus pada kontrol deplesi (kematian) di umur tua dan minimalisir pakan yang terbuang agar FCR makin ditekan.";
+            } else {
+                categoryName = "Sangat Baik";
+                bgColor = "#2980b9"; // Biru (Atau Hijau Terang)
+                textColor = "#fff";
+                tips = "Luar biasa! Manajemen, tingkat FCR, dan bibit sangat optimal. Pertahankan SOP pemeliharaan ini, dan pastikan data ini terekapitulasi dengan baik sebagai standar target di siklus/periode farm berikutnya.";
+            }
+
+            // Menerapkan styling kategori
+            categoryBadgeEl.textContent = categoryName;
+            categoryBadgeEl.style.backgroundColor = bgColor;
+            categoryBadgeEl.style.color = textColor;
+            tipsTextEl.textContent = tips;
+            
+            // Ubah border container hasil menyesuaikan warna kategori
+            resultContainer.style.border = `2px solid ${bgColor}`;
+            resultContainer.style.backgroundColor = `${bgColor}11`; // Menambahkan sedikit transparansi untuk background
+        }
+    </script>
+</body>
+</html>
