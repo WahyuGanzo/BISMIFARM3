@@ -19,6 +19,7 @@
             --green-light: #40916c;
             --accent-gold: #fca311;
             --accent-orange: #e85d04;
+            --accent-blue: #0077b6; /* Ditambah untuk Kalkulator IP */
             --bg-color: #f4f6f4;
             --surface: #ffffff;
             --text-main: #2b2d42;
@@ -264,6 +265,12 @@
             color: var(--accent-gold);
         }
 
+        /* Tambahan style untuk card IP */
+        .card.performance .card-icon-wrapper {
+            background: rgba(0, 119, 182, 0.1);
+            color: var(--accent-blue);
+        }
+
         .card h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
@@ -323,6 +330,18 @@
         .btn-solid-gold:hover {
             background: #e59400;
             border-color: #e59400;
+        }
+
+        /* Tambahan butang untuk card IP */
+        .btn-outline-blue {
+            background: transparent;
+            color: var(--accent-blue);
+            border: 2px solid var(--accent-blue);
+        }
+
+        .btn-outline-blue:hover {
+            background: var(--accent-blue);
+            color: white;
         }
 
         /* Info Section */
@@ -514,6 +533,17 @@
                 <p>Alat pintar untuk mengira prestasi pengeluaran purata berat ayam mengikuti umur ayam.</p>
                 <a href="https://averagecalculatorbismi.vercel.app/" target="_blank" class="btn btn-solid-gold">
                     <i class="fas fa-rocket"></i> Gunakan Kalkulator
+                </a>
+            </div>
+
+            <div class="card performance scroll-animate" style="animation-delay: 0.3s;">
+                <div class="card-icon-wrapper">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <h3>KALKULATOR IP</h3>
+                <p>Alat cerdas untuk menghitung IP (Index Performance) pekerja ladang ayam broiler.</p>
+                <a href="/ipcalculator.html" target="_blank" class="btn btn-outline-blue">
+                    <i class="fas fa-chart-pie"></i> Buka Kalkulator
                 </a>
             </div>
 
